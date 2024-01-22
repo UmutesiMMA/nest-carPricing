@@ -12,11 +12,21 @@ export class UsersService {
     return this.repo.save(user);
   }
   async findOne(id: number) {
-    return await this.repo.findOne(id);
+    const user = await this.repo.findOne({
+      where: { id: id },
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
   }
 
   async find(email: string) {
-    return await this.repo.find({ email });
+    return await this.repo.find({
+      where: {
+        email,
+      },
+    });
   }
   async update(id: number, data: Partial<User>) {
     const user = await this.findOne(id);
