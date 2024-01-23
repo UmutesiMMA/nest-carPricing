@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
   // UseInterceptors,
 } from '@nestjs/common';
 import { createUserDTO } from './dtos/createUser.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDTO } from './dtos/updateUser.dto';
+import { SerializerInterceptor } from '../serializer.interceptor';
 
 @Controller('auth')
 export default class UsersController {
@@ -26,6 +28,7 @@ export default class UsersController {
     }
   }
   // @UseInterceptors(ClassSerializerInterceptor)
+  @UseInterceptors(SerializerInterceptor)
   @Get()
   findAllUsers(@Query('email') email: string) {
     return this.userService.find(email);
